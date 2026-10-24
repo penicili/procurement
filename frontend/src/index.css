@@ -1,0 +1,279 @@
+:root {
+  color-scheme: light;
+  --p2p-bg: #f4f5f9;
+  --p2p-border: #e6e8ef;
+  --p2p-text: #1f2430;
+  --p2p-muted: #6b7280;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--p2p-bg);
+  color: var(--p2p-text);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+    Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.muted {
+  color: var(--p2p-muted);
+}
+
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.amount {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.numeric {
+  font-variant-numeric: tabular-nums;
+}
+
+.section-title {
+  margin: 0 0 4px;
+}
+
+.kpi-label {
+  color: var(--p2p-muted);
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.kpi-value {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+
+.kpi-hint {
+  color: var(--p2p-muted);
+  font-size: 12px;
+}
+
+.login-wrap {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, #e0e7ff 0%, transparent 60%),
+    radial-gradient(900px 500px at 110% 110%, #ede9fe 0%, transparent 55%),
+    #f4f5f9;
+}
+
+.login-card {
+  width: min(960px, 100%);
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  background: #fff;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px -24px rgba(31, 36, 48, 0.35);
+  border: 1px solid var(--p2p-border);
+}
+
+.login-brand {
+  padding: 40px 36px;
+  color: #fff;
+  background: linear-gradient(150deg, #312e81 0%, #4f46e5 55%, #6366f1 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.login-brand h1 {
+  color: #fff;
+  margin: 8px 0 0;
+  font-size: 26px;
+  line-height: 1.2;
+}
+
+.login-brand p {
+  color: rgba(255, 255, 255, 0.82);
+  margin: 0;
+}
+
+.brand-logo {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.16);
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  font-size: 15px;
+}
+
+.brand-points {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 13px;
+}
+
+.brand-points li {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.brand-foot {
+  margin-top: auto;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.login-form {
+  padding: 40px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.demo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.demo-btn {
+  text-align: left;
+  height: auto;
+  padding: 6px 10px;
+}
+
+.demo-role {
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.demo-email {
+  font-size: 11px;
+  color: var(--p2p-muted);
+}
+
+/* Print dokumen PO */
+.print-sheet {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 24px auto;
+  padding: 18mm;
+  background: #fff;
+  box-shadow: 0 12px 40px -20px rgba(0, 0, 0, 0.4);
+}
+
+.print-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  border-bottom: 2px solid #111827;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+}
+
+.print-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.print-table th,
+.print-table td {
+  border: 1px solid #d1d5db;
+  padding: 6px 8px;
+  text-align: left;
+}
+
+.print-table th {
+  background: #f3f4f6;
+}
+
+.print-sign {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 48px;
+  font-size: 12px;
+  text-align: center;
+}
+
+.print-sign .line {
+  margin-top: 56px;
+  border-top: 1px solid #111827;
+  padding-top: 6px;
+}
+
+@media (max-width: 860px) {
+  .login-card {
+    grid-template-columns: 1fr;
+  }
+
+  .login-brand {
+    padding: 28px;
+  }
+
+  .login-form {
+    padding: 28px;
+  }
+}
+
+@media print {
+  body {
+    background: #fff;
+  }
+
+  .print-sheet {
+    box-shadow: none;
+    margin: 0;
+    width: auto;
+    min-height: auto;
+    padding: 0;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+}
