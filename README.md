@@ -16,7 +16,7 @@ dengan pilihan studi kasus **Aplikasi Procurement**.
 |---|---|---|
 | Riset proses bisnis, dijelaskan dalam markdown | Analisis proses, stakeholder, aturan bisnis, edge case, asumsi | [`docs/01-business-process.md`](docs/01-business-process.md) |
 | BPMN/flowchart dengan > 2 role, PDF | Swimlane BPMN + flowchart sourcing + 3 state diagram (Mermaid) | [`docs/02-bpmn.md`](docs/02-bpmn.md), [`docs/export/bpmn-procurement.pdf`](docs/export/bpmn-procurement.pdf) |
-| WBS per module & feature dalam Excel | 45 baris pekerjaan + 11 baris modul (total 27 hari-orang) + sheet Milestone, Approval Matrix, Asumsi & Risiko | [`docs/03-wbs.xlsx`](docs/03-wbs.xlsx) |
+| WBS per module & feature dalam Excel | 48 baris pekerjaan (45 selesai, 3 backlog) + 11 baris modul, total 27 hari-orang + sheet Milestone, Approval Matrix, Asumsi & Risiko | [`docs/03-wbs.xlsx`](docs/03-wbs.xlsx) |
 | Aplikasi sederhana dengan Flask + database | API + SPA + SQLite, satu repositori | `app/`, `frontend/` |
 | Bagian aplikasi Procurement | Seluruh alur P2P di atas, 7 role, audit trail, laporan | halaman `/prs`, `/rfqs`, `/pos`, `/grns`, `/invoices`, `/reports` |
 | Analisis data (tambahan) | ERD & aturan integritas | [`docs/04-er-model.md`](docs/04-er-model.md) |
@@ -49,7 +49,23 @@ Aset dokumen dapat diregenerasi: `make docs` (WBS via `scripts/build_wbs.py`, PD
 
 ---
 
-## 3. Arsitektur
+## 3. Pratinjau aplikasi
+
+| Dashboard | Purchase Request |
+|---|---|
+| ![Dashboard](docs/screenshots/dashboard.png) | ![Detail PR](docs/screenshots/purchase-request.png) |
+
+| Perbandingan quotation | Purchase Order |
+|---|---|
+| ![Perbandingan quotation](docs/screenshots/rfq-comparison.png) | ![Detail PO](docs/screenshots/purchase-order.png) |
+
+| Verifikasi invoice (3-way match) | Laporan |
+|---|---|
+| ![Verifikasi invoice](docs/screenshots/invoice-match.png) | ![Laporan](docs/screenshots/reports.png) |
+
+---
+
+## 4. Arsitektur
 
 Satu repositori, dua bagian yang disajikan sebagai satu origin:
 
@@ -91,7 +107,7 @@ ciheul/
 
 ---
 
-## 4. Menjalankan aplikasi
+## 5. Menjalankan aplikasi
 
 **Prasyarat:** Python ≥ 3.13, [uv](https://docs.astral.sh/uv/), Node.js ≥ 20 (npm).
 
@@ -145,7 +161,7 @@ uv run flask --app app run --port 5000
 
 ---
 
-## 5. Akun demo
+## 6. Akun demo
 
 Password semua akun: **`demo1234`**. Halaman login menyediakan tombol isi otomatis.
 
@@ -184,7 +200,7 @@ Alur mencoba cepat:
 
 ---
 
-## 6. Aturan bisnis yang diterapkan
+## 7. Aturan bisnis yang diterapkan
 
 ### Approval matrix (IDR)
 
@@ -237,7 +253,7 @@ Detail lengkap, termasuk edge case dan lifecycle status: [`docs/01-business-proc
 
 ---
 
-## 7. Ringkasan API
+## 8. Ringkasan API
 
 Semua endpoint berada di bawah `/api`, memakai session cookie, dan mengembalikan JSON.
 
@@ -258,7 +274,7 @@ Format error konsisten: `{"error": {"message": "...", "status": 4xx}}`.
 
 ---
 
-## 8. Test & kualitas
+## 9. Test & kualitas
 
 ```bash
 make test   # 14 tests
@@ -276,7 +292,7 @@ HTTP API yang sama dengan yang dipakai UI.
 
 ---
 
-## 9. Asumsi, batasan, dan pekerjaan lanjutan
+## 10. Asumsi, batasan, dan pekerjaan lanjutan
 
 1. **Live chat widget + mobile app tidak diimplementasikan.** Bagian Procurement pada brief hanya
    mensyaratkan web app (Python) dan database; kalimat tersebut identik dengan brief Helpdesk dan
@@ -296,6 +312,6 @@ HTTP API yang sama dengan yang dipakai UI.
 
 ---
 
-## 10. Lisensi & kredit
+## 11. Lisensi & kredit
 
 Kode dibuat untuk keperluan take-home test. Data vendor, user, dan nominal sepenuhnya fiktif.
