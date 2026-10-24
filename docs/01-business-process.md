@@ -199,6 +199,10 @@ RACI ringkas:
 | 10.000.001 – 100.000.000 | Proc. Manager | Finance | – |
 | > 100.000.000 | Proc. Manager | Finance | Director |
 
+Approval **sekuensial**: level berikutnya baru muncul di inbox setelah level sebelumnya approve.
+Khusus level 1 PR, **Dept Head yang berhak adalah Dept Head dari departemen peminta** — Dept Head
+departemen lain tidak melihat tugas tersebut dan tidak dapat menyetujuinya.
+
 ### 5.2 Metode sourcing
 
 | Nilai | Metode default | Vendor minimal |

@@ -211,7 +211,8 @@ Alur mencoba cepat:
 | > 100 juta | Dept Head → Finance → Proc. Manager → Director | Proc. Manager → Finance → Director |
 
 Approval bersifat **sekuensial**; reject menghentikan proses dan PR dapat direvisi
-(`REJECTED → DRAFT`). Commitment budget baru dicatat saat approval terakhir PR disetujui.
+(`REJECTED → DRAFT`). Level 1 PR hanya dapat diputuskan oleh **Dept Head departemen peminta**.
+Commitment budget baru dicatat saat approval terakhir PR disetujui.
 
 ### Metode sourcing
 
@@ -277,13 +278,14 @@ Format error konsisten: `{"error": {"message": "...", "status": 4xx}}`.
 ## 9. Test & kualitas
 
 ```bash
-make test   # 14 tests
+make test   # 15 tests
 make lint   # ruff check + format --check
 ```
 
 Test berfokus pada aturan yang berisiko:
 
-- `tests/test_approval.py` — urutan approval, matrix nominal, penolakan, commitment budget.
+- `tests/test_approval.py` — urutan approval, matrix nominal, batas departemen Dept Head,
+  penolakan, commitment budget.
 - `tests/test_receiving.py` — partial receipt, qty melebihi PO, discrepancy, 3-way match & toleransi.
 - `tests/test_core.py` — penomoran, guard transisi, akses dokumen, seed smoke test.
 

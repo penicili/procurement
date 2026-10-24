@@ -145,6 +145,24 @@ def test_requester_cannot_approve(flow):
     assert response.status_code == 403
 
 
+def test_dept_head_scope_is_limited_to_own_department(flow):
+    pr = flow.create_pr(flow.rina, "Monitor tim desain", "IT-2026", pr_payload("1800000", 1))
+    flow.submit(flow.rina, pr["id"])
+
+    other_inbox = flow.hendra.get("/api/approvals")["items"]
+    assert not any(item["document"]["id"] == pr["id"] for item in other_inbox)
+
+    step = ApprovalStep.query.filter_by(doc_type="PR", doc_id=pr["id"], role="Dept Head").one()
+    response = flow.hendra.client.post(
+        f"/api/approvals/{step.id}/approve", json={"note": "lintas departemen"}
+    )
+    assert response.status_code == 403
+    assert "departemen" in response.get_json()["error"]["message"]
+
+    own_inbox = flow.bayu.get("/api/approvals")["items"]
+    assert any(item["document"]["id"] == pr["id"] for item in own_inbox)
+
+
 def test_invalid_transition_is_rejected():
     with pytest.raises(InvalidTransition):
         assert_transition("PR", "DRAFT", "ISSUED")

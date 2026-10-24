@@ -89,11 +89,19 @@ def actionable_for(user) -> list[ApprovalStep]:
     )
     result = []
     for step in candidates:
-        if is_actionable(step):
+        if is_actionable(step) and _department_ok(step, user):
             linked = _load_doc(step.doc_type, step.doc_id)
             if linked is not None:
                 result.append(step)
     return result
+
+
+def _department_ok(step: ApprovalStep, actor) -> bool:
+    """Dept Head hanya boleh memutuskan PR dari departemennya sendiri."""
+    if step.role != "Dept Head" or step.doc_type != "PR":
+        return True
+    pr = db.session.get(PurchaseRequest, step.doc_id)
+    return pr is not None and pr.department_id == actor.department_id
 
 
 def approve(step: ApprovalStep, actor, note: str | None = None) -> dict:
@@ -177,6 +185,8 @@ def _guard(step: ApprovalStep, actor) -> None:
         raise ValueError("Step approval ini sudah diproses")
     if step.role != actor.role:
         raise PermissionError(f"Step ini hanya untuk role {step.role}")
+    if not _department_ok(step, actor):
+        raise PermissionError("Step ini hanya untuk Dept Head dari departemen peminta")
     if not is_actionable(step):
         raise ValueError("Approval sebelumnya belum selesai")
     doc = _load_doc(step.doc_type, step.doc_id)
