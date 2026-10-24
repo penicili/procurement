@@ -165,9 +165,12 @@ RACI ringkas:
 - **Aktivitas:** invoice vendor dicatat, lalu dicocokkan dengan PO dan GRN.
 - **Output:** invoice `VERIFIED` (siap dibayar oleh aplikasi finance) atau `DISPUTED`.
 - **Aturan:**
-  - Qty invoice ≤ qty diterima (bukan qty PO).
-  - Harga invoice ≤ harga PO + toleransi 2%.
-  - Invoice untuk barang yang belum diterima → tidak boleh diverifikasi.
+  - Nilai invoice ≤ nilai barang/jasa yang sudah diterima (GRN `POSTED`) + toleransi 2% (minimal
+    Rp10.000). Invoice dicatat pada level header (nomor, tanggal, nilai total), sehingga
+    pencocokan dilakukan terhadap **nilai kumulatif yang diterima**, bukan per baris qty.
+  - PO harus berstatus `PARTIALLY_RECEIVED`, `RECEIVED`, atau `CLOSED`.
+  - Invoice untuk barang yang belum diterima → `DISPUTED`, bukan ditolak permanen; match dapat
+    dihitung ulang setelah GRN baru diposting.
   - Invoice `VERIFIED` dianggap **handoff** ke aplikasi pembayaran (out of scope).
 
 ### Tahap 8 — Penutupan & evaluasi
@@ -230,14 +233,19 @@ available = allocated - committed - spent
 
 ### 5.5 3-way match
 
+Invoice dicatat pada level header (nilai total), sehingga pencocokan memakai **nilai kumulatif
+barang/jasa yang sudah diterima** dari GRN `POSTED`:
+
 ```
-match = (sum(qty_invoice) <= sum(qty_received))
-        AND (amount_invoice <= amount_po_received * (1 + tolerance))
-        AND po.status IN (PARTIALLY_RECEIVED, RECEIVED)
+match = po.status IN (PARTIALLY_RECEIVED, RECEIVED, CLOSED)
+        AND received_value > 0
+        AND amount_invoice <= received_value + max(2% x received_value, Rp10.000)
 ```
 
-- Toleransi harga: 2% (dapat dikonfigurasi), minimal Rp 10.000.
+- Toleransi: 2% (dapat dikonfigurasi), minimal Rp 10.000 untuk menutup pembulatan.
 - Selisih di luar toleransi → `DISPUTED` dengan alasan yang tercatat.
+- `CLOSED` tetap boleh diverifikasi bila penerimaan sudah pernah diposting (mis. sisa qty
+  dibatalkan).
 
 ### 5.6 Penomoran dokumen
 

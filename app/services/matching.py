@@ -53,7 +53,7 @@ def evaluate(invoice, *, apply: bool = True) -> dict:
     if value > 0 and amount > limit:
         reasons.append(
             f"Nilai invoice Rp{amount:,.0f} melebihi nilai diterima + toleransi "
-            f"Rp{limit:,.0f} (diterima Rp{value:,.0f}, toleransi 2%/min Rp{minimum:,.0f})"
+            f"Rp{limit:,.0f} (diterima Rp{value:,.0f}, toleransi {pct:g}%/min Rp{minimum:,.0f})"
         )
 
     matched = not reasons
