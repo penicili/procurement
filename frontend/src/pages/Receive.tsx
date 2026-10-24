@@ -28,7 +28,6 @@ import { CONDITION_LABEL, statusLabel } from '../labels'
 import type { PODetail as PODetailData } from '../types'
 
 interface ReceiveItemForm {
-  po_item_id: number
   qty_received: number
   qty_rejected: number
   condition: string
@@ -93,7 +92,6 @@ export function Receive() {
   }
 
   const initialItems: ReceiveItemForm[] = items.map((item) => ({
-    po_item_id: item.id,
     qty_received: item.remaining_qty > 0 ? item.remaining_qty : 0,
     qty_rejected: 0,
     condition: 'GOOD',
@@ -114,13 +112,19 @@ export function Receive() {
         delivery_note_no: values.delivery_note_no,
         is_service: !!values.is_service,
         notes: values.notes,
-        items: values.items.map((item) => ({
-          po_item_id: item.po_item_id,
-          qty_received: item.qty_received ?? 0,
-          qty_rejected: item.qty_rejected ?? 0,
-          condition: item.condition,
-          note: item.note,
-        })),
+        items: items.map((poItem, index) => {
+          // `po_item_id` sengaja diambil dari data PO, bukan dari nilai form,
+          // karena field tersebut tidak dirender sebagai input dan tidak ikut
+          // dikirim oleh Ant Design Form.
+          const entry = values.items?.[index]
+          return {
+            po_item_id: poItem.id,
+            qty_received: entry?.qty_received ?? 0,
+            qty_rejected: entry?.qty_rejected ?? 0,
+            condition: entry?.condition ?? 'GOOD',
+            note: entry?.note,
+          }
+        }),
       }
       const grn = await api.post<{ id: number; number: string }>('/grns', payload)
       await api.post(`/grns/${grn.id}/post`)

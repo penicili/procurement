@@ -309,12 +309,16 @@ export function InvoiceDetail() {
               />
               <div style={{ marginTop: 8 }}>
                 <div className="muted" style={{ fontSize: 12, marginBottom: 4 }}>
-                  Pemakaian toleransi
+                  Pemakaian toleransi · {formatMoney(Math.max(0, invoice.amount - match.received_value))} dari{' '}
+                  {formatMoney(match.tolerance)}
                 </div>
                 <div style={{ height: 8, background: '#eef0f5', borderRadius: 999 }}>
                   <div
                     style={{
-                      width: `${Math.min(100, percent(invoice.amount, match.limit))}%`,
+                      width: `${Math.min(
+                        100,
+                        percent(Math.max(0, invoice.amount - match.received_value), match.tolerance),
+                      )}%`,
                       height: 8,
                       borderRadius: 999,
                       background: invoice.amount > match.limit ? '#dc2626' : '#4f46e5',
